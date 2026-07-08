@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clarão — fotos e ideias em movimento</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     IDENTIDADE VISUAL — CLARÃO
+     Conceito: o instante em que uma foto é batida (o "clarão"
+     do flash) é o mesmo instante em que uma ideia aparece.
+     Paleta inspirada em câmara escura: preto quente de estúdio,
+     papel de impressão instantânea e a luz vermelha do safelight.
+     ========================================================= */
+  :root{
+    --ink:        #17141C;   /* fundo principal, preto quente   */
+    --ink-soft:   #221C2B;   /* cabeçalho / rodapé               */
+    --paper:      #F3ECE0;   /* papel das publicações (print)    */
+    --paper-dim:  #e7ddc9;   /* linhas e bordas sobre o papel    */
+    --safelight:  #E8442A;   /* vermelho de câmara escura        */
+    --spark:      #F0A73A;   /* âmbar — "faísca" das ideias      */
+    --text-dark:  #241F2B;   /* texto sobre o papel              */
+    --text-slate: #B8AFC4;   /* texto sobre o fundo escuro       */
+
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body:    'Work Sans', sans-serif;
+    --font-mono:    'Space Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(232,68,42,0.10), transparent 45%),
+      radial-gradient(circle at 88% 20%, rgba(240,167,58,0.08), transparent 40%),
+      var(--ink);
+    color: var(--text-slate);
+    font-family: var(--font-body);
+    line-height: 1.5;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; }
+
+  /* ---------- CABEÇALHO ---------- */
+  .site-header{
+    position: sticky;
+    top:0;
+    z-index: 50;
+    background: rgba(34,28,43,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .header-inner{
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 1rem clamp(1rem, 4vw, 2.5rem);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    flex-wrap: wrap;
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:.55rem;
+    font-family: var(--font-display);
+    font-size: 1.85rem;
+    letter-spacing: .05em;
+    color: var(--paper);
+  }
+
+  .logo svg{
+    width:26px; height:26px;
+    stroke: var(--safelight);
+    animation: pulse-aperture 3.2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-aperture{
+    0%, 100%{ transform: rotate(0deg) scale(1); }
+    50%{ transform: rotate(20deg) scale(1.08); }
+  }
+
+  .main-nav{
+    display:flex;
+    gap: clamp(1rem, 3vw, 1.8rem);
+    flex-wrap: wrap;
+  }
+
+  .main-nav a{
+    font-weight:600;
+    font-size:.82rem;
+    letter-spacing:.06em;
+    text-transform: uppercase;
+    color: var(--text-slate);
+    padding: .3rem .1rem;
+    border-bottom: 2px solid transparent;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .main-nav a:hover{ color: var(--paper); }
+  .main-nav a.active{
+    color: var(--paper);
+    border-color: var(--safelight);
+  }
+
+  /* ---------- HERO / MANIFESTO ---------- */
+  .hero{
+    max-width: 720px;
+    margin: 0 auto;
+    text-align:center;
+    padding: clamp(2.5rem,6vw,4rem) 1.5rem 1.5rem;
+  }
+  .hero-line{
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: .02em;
+    color: var(--paper);
+    margin: 0 0 .6rem;
+  }
+  .hero-sub{
+    margin:0;
+    font-size:.95rem;
+    color: var(--text-slate);
+  }
+  .hero-sub strong{ color: var(--spark); }
+
+  /* ---------- FEED ---------- */
+  .feed{
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 1.5rem clamp(1rem,5vw,3rem) 4rem;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 3.2rem 2rem;
+  }
+
+  .post{
+    position:relative;
+    background: var(--paper);
+    border-radius: 3px;
+    padding: 14px 14px 18px;
+    box-shadow: 0 12px 26px rgba(0,0,0,.38);
+    transform: rotate(var(--rot, 0deg));
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .post:hover{
+    transform: rotate(0deg) translateY(-8px);
+    box-shadow: 0 4px 14px rgba(232,68,42,.28), 0 20px 40px rgba(0,0,0,.45);
+  }
+
+  .pin{
+    position:absolute;
+    top:-16px;
+    left:50%;
+    transform: translateX(-50%);
+    width:14px; height:30px;
+    filter: drop-shadow(0 3px 3px rgba(0,0,0,.4));
+  }
+
+  .tag{
+    position:absolute;
+    top:10px; left:10px;
+    font-family: var(--font-mono);
+    font-size:.62rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    padding:.22rem .5rem;
+    border-radius:2px;
+    z-index:2;
+  }
+  .tag-foto{ background: var(--safelight); color: var(--paper); }
+  .tag-ideia{ background: var(--spark); color: var(--ink); }
+
+  .post-photo{
+    position:relative;
+    overflow:hidden;
+    border-radius:2px;
+  }
+  .post-photo img{
+    display:block;
+    width:100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    filter: saturate(1.05) contrast(1.03);
+  }
+
+  .post-body{ padding-top: .9rem; }
+  .post-body h2{
+    font-family: var(--font-display);
+    font-weight:400;
+    font-size:1.55rem;
+    letter-spacing:.01em;
+    color: var(--text-dark);
+    margin: 0 0 .35rem;
+  }
+  .post-body p.desc{
+    margin:0 0 .65rem;
+    font-size:.92rem;
+    color: rgba(36,31,43,.82);
+  }
+  .post-body p.meta{
+    margin:0;
+    font-family: var(--font-mono);
+    font-size:.7rem;
+    color: var(--safelight);
+    letter-spacing:.02em;
+  }
+
+  .post-actions{
+    display:flex;
+    gap:.3rem;
+    margin-top:.85rem;
+    padding-top:.6rem;
+    border-top: 1px solid var(--paper-dim);
+  }
+  .action{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:.35rem;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-family: var(--font-body);
+    font-weight:600;
+    font-size:.76rem;
+    color: rgba(36,31,43,.68);
+    padding:.5rem .3rem;
+    border-radius:6px;
+    transition: background .2s ease, color .2s ease;
+  }
+  .action:hover{ background: rgba(36,31,43,.07); color: var(--text-dark); }
+  .action svg{ width:16px; height:16px; flex-shrink:0; }
+
+  .like-btn.liked{ color: var(--safelight); }
+  .like-btn.liked svg{ fill: var(--safelight); stroke: var(--safelight); }
+
+  .comment-btn.open{ color: var(--text-dark); background: rgba(36,31,43,.07); }
+
+  /* caixa de comentários */
+  .comment-box{
+    display:none;
+    flex-direction:column;
+    gap:.55rem;
+    margin-top:.7rem;
+    padding-top:.7rem;
+    border-top: 1px dashed var(--paper-dim);
+  }
+  .comment-box.open{ display:flex; }
+
+  .comment-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.4rem; }
+  .comment-list li{
+    font-size:.8rem;
+    background: rgba(36,31,43,.05);
+    padding:.4rem .6rem;
+    border-radius:5px;
+    color: var(--text-dark);
+  }
+  .comment-list li strong{ color: var(--safelight); }
+
+  .comment-form{ display:flex; gap:.4rem; }
+  .comment-form input{
+    flex:1;
+    padding:.5rem .65rem;
+    border:1px solid var(--paper-dim);
+    border-radius:5px;
+    font-family: var(--font-body);
+    font-size:.8rem;
+    background:#fff;
+    color: var(--text-dark);
+  }
+  .comment-form input:focus{ outline:2px solid var(--spark); outline-offset:1px; }
+  .comment-form button{
+    padding:.5rem .9rem;
+    border:none;
+    border-radius:5px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-weight:600;
+    font-size:.75rem;
+    cursor:pointer;
+  }
+  .comment-form button:hover{ background: var(--safelight); }
+
+  /* toast de compartilhamento */
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:24px;
+    transform: translate(-50%, 20px);
+    background: var(--ink-soft);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size:.78rem;
+    padding:.7rem 1.1rem;
+    border-radius:6px;
+    border:1px solid rgba(240,167,58,.4);
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease;
+    z-index:100;
+  }
+  .toast.show{ opacity:1; transform: translate(-50%, 0); }
+
+  /* ---------- RODAPÉ ---------- */
+  .site-footer{
+    background: var(--ink-soft);
+    border-top: 1px solid rgba(255,255,255,.07);
+    padding: 3rem 1.5rem 2.4rem;
+  }
+  .footer-inner{
+    max-width: 760px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .footer-brand{
+    font-family: var(--font-display);
+    font-size:1.6rem;
+    letter-spacing:.05em;
+    color: var(--paper);
+    margin-bottom:.7rem;
+  }
+  .footer-bio{ font-size:.88rem; margin:0 0 1.1rem; color: var(--text-slate); }
+  .footer-bio strong{ color: var(--spark); }
+  .footer-meta{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:1.3rem;
+    font-family: var(--font-mono);
+    font-size:.7rem;
+    color: rgba(184,175,196,.75);
+  }
+
+  /* ---------- RESPONSIVIDADE ---------- */
+  @media (max-width: 560px){
+    .header-inner{ justify-content:center; text-align:center; }
+    .main-nav{ justify-content:center; }
+    .post{ padding:12px 12px 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .logo svg{ animation:none; }
+    .post{ transition:none; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body id="top">
+
+  <!-- ===================== CABEÇALHO + MENU ===================== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#top">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+          <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+          <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+          <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+          <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+          <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+        </svg>
+        Clarão
+      </a>
+      <nav class="main-nav">
+        <a href="#top" class="active">Início</a>
+        <a href="#feed">Explorar</a>
+        <a href="#ideias">Ideias</a>
+        <a href="#sobre">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===================== HERO / MANIFESTO ===================== -->
+  <section class="hero">
+    <p class="hero-line">registre o clique. revele a ideia.</p>
+    <p class="hero-sub">Um mural coletivo de <strong>fotografias</strong> e <strong>pensamentos soltos</strong>, alimentado por quem participa.</p>
+  </section>
+
+  <!-- ===================== ÁREA PRINCIPAL DE PUBLICAÇÕES ===================== -->
+  <main class="feed" id="feed">
+
+    <!-- Publicação 1 -->
+    <article class="post" style="--rot:-2deg">
+      <span class="tag tag-foto">Foto</span>
+      <div class="pin" aria-hidden="true">
+        <svg viewBox="0 0 14 30"><path d="M4 1h6a2 2 0 0 1 2 2v9l-2.4 3 2.4 3v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9l2.4-3L2 12V3a2 2 0 0 1 2-2z" fill="#17141C"/></svg>
+      </div>
+      <div class="post-photo">
+        <img src="https://picsum.photos/seed/clarao-golden/800/600" alt="Rua estreita ao entardecer, com sombras longas projetadas pelos prédios">
+      </div>
+      <div class="post-body">
+        <h2>Luz de fim de tarde na Rua Augusta</h2>
+        <p class="desc">O sol baixo criou sombras compridas entre os prédios. Um daqueles momentos em que a cidade parece parar por três segundos.</p>
+        <p class="meta">f/2.8 · ISO 200 · @marianalopes</p>
+      </div>
+      <div class="post-actions">
+        <button class="action like-btn" data-count="128">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"><path d="M12 21s-6.7-4.35-9.3-8.28C1 9.98 1.5 6.5 4.5 5c2.2-1.1 4.6-.2 5.9 1.8L12 8.8l1.6-2c1.3-2 3.7-2.9 5.9-1.8 3 1.5 3.5 5 1.8 7.72C18.7 16.65 12 21 12 21z"/></svg>
+          <span class="label">Curtir</span><span class="count">128</span>
+        </button>
+        <button class="action comment-btn" data-count="6">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="label">Comentar</span><span class="count">6</span>
+        </button>
+        <button class="action share-btn">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <span class="label">Compartilhar</span>
+        </button>
+      </div>
+      <div class="comment-box">
+        <ul class="comment-list"></ul>
+        <div class="comment-form">
+          <input type="text" placeholder="Escreva um comentário...">
+          <button type="button">Enviar</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Publicação 2 -->
+    <article class="post" style="--rot:1.5deg">
+      <span class="tag tag-ideia">Ideia</span>
+      <div class="pin" aria-hidden="true">
+        <svg viewBox="0 0 14 30"><path d="M4 1h6a2 2 0 0 1 2 2v9l-2.4 3 2.4 3v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9l2.4-3L2 12V3a2 2 0 0 1 2-2z" fill="#17141C"/></svg>
+      </div>
+      <div class="post-photo">
+        <img src="https://picsum.photos/seed/clarao-caderno/800/600" alt="Caderno aberto com rascunhos e uma foto polaroid colada na página">
+      </div>
+      <div class="post-body">
+        <h2>Ideia: caderno de notas visuais</h2>
+        <p class="desc">Testando um formato onde cada página mistura rascunho, foto instantânea e uma frase solta. Ainda não sei se vira zine ou vira hábito.</p>
+        <p class="meta">caderno A5 · tinta preta · @pedrorocha</p>
+      </div>
+      <div class="post-actions">
+        <button class="action like-btn" data-count="94">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"><path d="M12 21s-6.7-4.35-9.3-8.28C1 9.98 1.5 6.5 4.5 5c2.2-1.1 4.6-.2 5.9 1.8L12 8.8l1.6-2c1.3-2 3.7-2.9 5.9-1.8 3 1.5 3.5 5 1.8 7.72C18.7 16.65 12 21 12 21z"/></svg>
+          <span class="label">Curtir</span><span class="count">94</span>
+        </button>
+        <button class="action comment-btn" data-count="21">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="label">Comentar</span><span class="count">21</span>
+        </button>
+        <button class="action share-btn">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <span class="label">Compartilhar</span>
+        </button>
+      </div>
+      <div class="comment-box">
+        <ul class="comment-list"></ul>
+        <div class="comment-form">
+          <input type="text" placeholder="Escreva um comentário...">
+          <button type="button">Enviar</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Publicação 3 -->
+    <article class="post" style="--rot:-1deg">
+      <span class="tag tag-foto">Foto</span>
+      <div class="pin" aria-hidden="true">
+        <svg viewBox="0 0 14 30"><path d="M4 1h6a2 2 0 0 1 2 2v9l-2.4 3 2.4 3v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9l2.4-3L2 12V3a2 2 0 0 1 2-2z" fill="#17141C"/></svg>
+      </div>
+      <div class="post-photo">
+        <img src="https://picsum.photos/seed/clarao-gotas/800/600" alt="Close-up de gotas de água sobre uma folha larga">
+      </div>
+      <div class="post-body">
+        <h2>Gotas na folha depois da chuva</h2>
+        <p class="desc">Fui de macro numa folha de costela-de-adão só para ver se as gotas seguravam a luz. Seguraram.</p>
+        <p class="meta">f/4 · macro 100mm · @julia.andrade</p>
+      </div>
+      <div class="post-actions">
+        <button class="action like-btn" data-count="203">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"><path d="M12 21s-6.7-4.35-9.3-8.28C1 9.98 1.5 6.5 4.5 5c2.2-1.1 4.6-.2 5.9 1.8L12 8.8l1.6-2c1.3-2 3.7-2.9 5.9-1.8 3 1.5 3.5 5 1.8 7.72C18.7 16.65 12 21 12 21z"/></svg>
+          <span class="label">Curtir</span><span class="count">203</span>
+        </button>
+        <button class="action comment-btn" data-count="9">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="label">Comentar</span><span class="count">9</span>
+        </button>
+        <button class="action share-btn">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <span class="label">Compartilhar</span>
+        </button>
+      </div>
+      <div class="comment-box">
+        <ul class="comment-list"></ul>
+        <div class="comment-form">
+          <input type="text" placeholder="Escreva um comentário...">
+          <button type="button">Enviar</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Publicação 4 -->
+    <article class="post" style="--rot:2deg" id="ideias">
+      <span class="tag tag-foto">Foto</span>
+      <div class="pin" aria-hidden="true">
+        <svg viewBox="0 0 14 30"><path d="M4 1h6a2 2 0 0 1 2 2v9l-2.4 3 2.4 3v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9l2.4-3L2 12V3a2 2 0 0 1 2-2z" fill="#17141C"/></svg>
+      </div>
+      <div class="post-photo">
+        <img src="https://picsum.photos/seed/clarao-tijolos/800/600" alt="Textura de parede de tijolos antigos">
+      </div>
+      <div class="post-body">
+        <h2>Parede de tijolos como textura</h2>
+        <p class="desc">Comecei a fotografar paredes só pela textura, sem pensar em composição. Virou um arquivo de fundos para outros projetos.</p>
+        <p class="meta">f/5.6 · ISO 400 · @andre.tex</p>
+      </div>
+      <div class="post-actions">
+        <button class="action like-btn" data-count="67">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"><path d="M12 21s-6.7-4.35-9.3-8.28C1 9.98 1.5 6.5 4.5 5c2.2-1.1 4.6-.2 5.9 1.8L12 8.8l1.6-2c1.3-2 3.7-2.9 5.9-1.8 3 1.5 3.5 5 1.8 7.72C18.7 16.65 12 21 12 21z"/></svg>
+          <span class="label">Curtir</span><span class="count">67</span>
+        </button>
+        <button class="action comment-btn" data-count="3">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="label">Comentar</span><span class="count">3</span>
+        </button>
+        <button class="action share-btn">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <span class="label">Compartilhar</span>
+        </button>
+      </div>
+      <div class="comment-box">
+        <ul class="comment-list"></ul>
+        <div class="comment-form">
+          <input type="text" placeholder="Escreva um comentário...">
+          <button type="button">Enviar</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Publicação 5 -->
+    <article class="post" style="--rot:-1.5deg">
+      <span class="tag tag-foto">Foto</span>
+      <div class="pin" aria-hidden="true">
+        <svg viewBox="0 0 14 30"><path d="M4 1h6a2 2 0 0 1 2 2v9l-2.4 3 2.4 3v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9l2.4-3L2 12V3a2 2 0 0 1 2-2z" fill="#17141C"/></svg>
+      </div>
+      <div class="post-photo">
+        <img src="https://picsum.photos/seed/clarao-skyline/800/600" alt="Skyline de cidade visto do alto ao entardecer">
+      </div>
+      <div class="post-body">
+        <h2>Skyline visto da cobertura</h2>
+        <p class="desc">Subimos seis lances de escada para pegar esse ângulo às 18h40. Valeu cada degrau.</p>
+        <p class="meta">f/8 · longa exposição · @carolfotografa</p>
+      </div>
+      <div class="post-actions">
+        <button class="action like-btn" data-count="311">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"><path d="M12 21s-6.7-4.35-9.3-8.28C1 9.98 1.5 6.5 4.5 5c2.2-1.1 4.6-.2 5.9 1.8L12 8.8l1.6-2c1.3-2 3.7-2.9 5.9-1.8 3 1.5 3.5 5 1.8 7.72C18.7 16.65 12 21 12 21z"/></svg>
+          <span class="label">Curtir</span><span class="count">311</span>
+        </button>
+        <button class="action comment-btn" data-count="18">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="label">Comentar</span><span class="count">18</span>
+        </button>
+        <button class="action share-btn">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <span class="label">Compartilhar</span>
+        </button>
+      </div>
+      <div class="comment-box">
+        <ul class="comment-list"></ul>
+        <div class="comment-form">
+          <input type="text" placeholder="Escreva um comentário...">
+          <button type="button">Enviar</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Publicação 6 -->
+    <article class="post" style="--rot:1deg">
+      <span class="tag tag-ideia">Ideia</span>
+      <div class="pin" aria-hidden="true">
+        <svg viewBox="0 0 14 30"><path d="M4 1h6a2 2 0 0 1 2 2v9l-2.4 3 2.4 3v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9l2.4-3L2 12V3a2 2 0 0 1 2-2z" fill="#17141C"/></svg>
+      </div>
+      <div class="post-photo">
+        <img src="https://picsum.photos/seed/clarao-mural/800/600" alt="Mural coletivo com retratos e frases coladas em uma praça">
+      </div>
+      <div class="post-body">
+        <h2>Ideia: mural coletivo de retratos</h2>
+        <p class="desc">Proposta para o grupo: cada pessoa fotografa um vizinho e escreve uma frase que ele disse. No fim, montamos um mural na praça.</p>
+        <p class="meta">projeto comunitário · @coletivo.luz</p>
+      </div>
+      <div class="post-actions">
+        <button class="action like-btn" data-count="152">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"><path d="M12 21s-6.7-4.35-9.3-8.28C1 9.98 1.5 6.5 4.5 5c2.2-1.1 4.6-.2 5.9 1.8L12 8.8l1.6-2c1.3-2 3.7-2.9 5.9-1.8 3 1.5 3.5 5 1.8 7.72C18.7 16.65 12 21 12 21z"/></svg>
+          <span class="label">Curtir</span><span class="count">152</span>
+        </button>
+        <button class="action comment-btn" data-count="27">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="label">Comentar</span><span class="count">27</span>
+        </button>
+        <button class="action share-btn">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <span class="label">Compartilhar</span>
+        </button>
+      </div>
+      <div class="comment-box">
+        <ul class="comment-list"></ul>
+        <div class="comment-form">
+          <input type="text" placeholder="Escreva um comentário...">
+          <button type="button">Enviar</button>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ===================== RODAPÉ ===================== -->
+  <footer class="site-footer" id="sobre">
+    <div class="footer-inner">
+      <div class="footer-brand">Clarão</div>
+      <p class="footer-bio">Criado e mantido por <strong>Marina Duarte</strong>, fotógrafa e curadora de ideias. Este é um projeto de estudo que simula uma rede social de compartilhamento visual.</p>
+      <div class="footer-meta">
+        <span>contato@clarao.com</span>
+        <span>São Paulo, Brasil</span>
+        <span>© 2026 Clarão</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---------- CURTIR ----------
+    document.querySelectorAll('.like-btn').forEach(function(btn){
+      var countEl = btn.querySelector('.count');
+      var base = parseInt(btn.dataset.count, 10);
+      var liked = false;
+      btn.addEventListener('click', function(){
+        liked = !liked;
+        btn.classList.toggle('liked', liked);
+        countEl.textContent = liked ? base + 1 : base;
+      });
+    });
+
+    // ---------- COMENTAR ----------
+    document.querySelectorAll('.post').forEach(function(post){
+      var commentBtn = post.querySelector('.comment-btn');
+      var box = post.querySelector('.comment-box');
+      var list = post.querySelector('.comment-list');
+      var input = post.querySelector('.comment-form input');
+      var sendBtn = post.querySelector('.comment-form button');
+      var countEl = commentBtn.querySelector('.count');
+      var count = parseInt(commentBtn.dataset.count, 10);
+
+      commentBtn.addEventListener('click', function(){
+        var isOpen = box.classList.toggle('open');
+        commentBtn.classList.toggle('open', isOpen);
+        if(isOpen) input.focus();
+      });
+
+      function addComment(){
+        var text = input.value.trim();
+        if(!text) return;
+        var li = document.createElement('li');
+        li.innerHTML = '<strong>você:</strong> ' + text.replace(/</g,'&lt;');
+        list.appendChild(li);
+        input.value = '';
+        count += 1;
+        countEl.textContent = count;
+      }
+
+      sendBtn.addEventListener('click', addComment);
+      input.addEventListener('keydown', function(e){
+        if(e.key === 'Enter') addComment();
+      });
+    });
+
+    // ---------- COMPARTILHAR ----------
+    var toast = document.getElementById('toast');
+    var toastTimer = null;
+    document.querySelectorAll('.share-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var title = btn.closest('.post').querySelector('h2').textContent;
+        toast.textContent = '"' + title + '" compartilhado com sua rede ✨';
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2200);
+      });
+    });
+  </script>
+
+</body>
+</html>
